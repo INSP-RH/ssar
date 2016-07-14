@@ -166,7 +166,7 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
   NumericVector a0(nsim);        //For rate of jumps
   NumericVector vec(nsim);       //For random numbers
   IntegerVector nsimRange(nsim); //For indexing simulation value
-  IntegerVector valsRange(nsim); //For indexing variable value  
+  //IntegerVector valsRange(nsim); //For indexing variable value  
   IntegerVector indicator(nsim); // For saving index range
   
   //Matrices
@@ -200,6 +200,8 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
   
   //Loop to assign initial valies to Xvals and nsimRange
   //----------------------------------------------------------------
+  
+  
   for (int j = 0; j < nsim; j++){
     
     //Value to Nsimrange
@@ -212,9 +214,10 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
       Xvals(j,k) = X(k); 
       
       //Create valsRange
-      valsRange(k) = k + 2;
+      //valsRange(k) = k + 2;
     }
   }
+  
   
   //Assign simulation number that won't change in loop
   Printable(_,0) = nsimRange; //Simulation number
@@ -229,6 +232,8 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
   
   //Print to file
   myfile << Printable;
+  
+
   //SIMULATION LOOP: NEEDS TO BE FASTER
   //----------------------------------------------------------------
   //Start simulation loop
