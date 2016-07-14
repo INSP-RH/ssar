@@ -1,8 +1,27 @@
 Package: ssar
+Title: A speedy implementation of Gillespie's Stochastic Simulation Algorithm
+Version: 0.0.0.9000
+Authors@R: c(person("Rodrigo", "Zepeda", email = "rodrigo.zepeda@insp.mx",
+                    role = c("aut", "cre")), 
+             person("Dalia", "Camacho", email = "daliaf172@gmail.com", 
+                                                    role = c("aut")),
+             person("Tonatiuh","Barrientos", role = c("ctb")))
+Description: ssar is an implementation of Gillespie's Stochastic Simulation
+    Algorithm in R . It combines R's graphic and statistical capabilities with C
+    ++ speed by using Rcpp. This package represents a severe speed improvement
+    over previous packages available at CRAN. In addition, the package allows for
+    simulation of Inhomogeneous Markov Chains. More information on the package can
+    be found on the github repository.
+Depends:
+    R (>= 3.2.3)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
-License: What license is it under?
-LazyData: TRUE
+LazyLoad: yes
+stringsAsFactors: FALSE
+LinkingTo: Rcpp
+Imports:
+    Rcpp,
+    compiler
+RoxygenNote: 5.0.1
