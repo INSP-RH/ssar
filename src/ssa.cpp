@@ -3,6 +3,8 @@
 #include <time.h>
 #include <iostream>
 #include <fstream>
+#include <sstream>  //include this to use string streams
+#include <string> 
 using namespace Rcpp;
 
 //Function to print time variable in console
@@ -166,7 +168,6 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
   NumericVector a0(nsim);        //For rate of jumps
   NumericVector vec(nsim);       //For random numbers
   IntegerVector nsimRange(nsim); //For indexing simulation value
-  //IntegerVector valsRange(nsim); //For indexing variable value  
   IntegerVector indicator(nsim); // For saving index range
   
   //Matrices
@@ -192,8 +193,12 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
   //Create header of file
   std::string headerfile = "Simulation Iteration Time";
   
+  
+  //http://stackoverflow.com/questions/5290089/how-to-convert-a-number-to-string-and-vice-versa-in-c
   for (int j = 0; j < mvals; j++){
-    headerfile +=  " Var"  + std::to_string(j + 1);
+    std::ostringstream ostr; 
+    ostr << j + 1;
+    headerfile +=  " Var"  + ostr.str();
   }
   
   myfile << headerfile + "\n";
@@ -213,8 +218,6 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
       //Create xvals
       Xvals(j,k) = X(k); 
       
-      //Create valsRange
-      //valsRange(k) = k + 2;
     }
   }
   
