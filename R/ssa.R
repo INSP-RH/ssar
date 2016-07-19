@@ -32,7 +32,7 @@
 #' @author Dalia Camacho
 #'
 #' @import compiler
-#' @importFrom Rcpp evalCpp
+#' @importFrom Rcpp evalCpp 
 #' @importFrom grDevices rainbow
 #' @importFrom graphics lines plot
 #' @importFrom utils read.table
@@ -262,7 +262,9 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
   
   #Don't allow for infinite loops
   if (maxiter == Inf & maxtime == Inf & tmax == Inf){
-    tmax     <- tmin + 1
+    warning(paste("Please specify either maxiter or maxtime or tmax", 
+                  "to avoid infinite loops. Defaulting tmax =",tmin + 1))
+    tmax <- tmin + 1
   }
   
   #Keep file if file.only option is on
@@ -277,7 +279,7 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
 
   #Run C program to estimate the loop
   #cat("Running simulation...\n")
-
+  
   ssa_loop(xinit, .pfun, v, params, tmin, nsim, .lfun,
             tmax, maxiter, maxtime,  print.time, .opts_check, kthsave)
 
@@ -293,6 +295,10 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
   #Try to open file which is in current directory
   .filename  <- "Temporary_File_ssa.txt"
   .datamodel <- as.data.frame(read.table(.filename, header = T))
+  
+  #Change colnames (this is to ensure no errors while running check)
+  colnames(.datamodel)[1] <- "Simulation"
+  colnames(.datamodel)[3] <- "Time"
   
   }
   
@@ -334,7 +340,7 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
     for (i in 1:nsim){
 
       #Get one simulation at a time 
-      .subsimulation <- subset(.datamodel, Simulation == i & Time < Inf)
+      .subsimulation <- subset(.datamodel, .datamodel$Simulation == i & .datamodel$Time < Inf)
 
       if (i == 1){
 
