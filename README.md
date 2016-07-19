@@ -26,6 +26,12 @@ install.packages("devtools")
 devtools::install_github("INSP-RH/ssar")
 ```
 
+To adecquately run `ssar`you need to install a `C++`compiler:
+
+-   On Windows, install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
+-   On Mac, install Xcode from the App store.
+-   On Linux, `sudo apt-get install r-base-dev` or similar.
+
 Examples
 --------
 
@@ -343,9 +349,9 @@ simulation <- ssa(X, pfun, v, params, file.only = TRUE)
 
     ## [1] "********** OVERALL TIME EVALUATION **********"
 
-    ## [1] "Normal eval:     0.0801551342010498"
+    ## [1] "Normal eval:     0.0787589550018311"
 
-    ## [1] "file.only = TRUE: 0.0544209480285645"
+    ## [1] "file.only = TRUE: 0.0568051338195801"
 
     ## [1] "*********************************************"
 
@@ -451,9 +457,9 @@ Changing `kthsave` to *10* reduces *10* times the file size. In addition, it alm
 
     ## [1] "********** OVERALL TIME EVALUATION **********"
 
-    ## [1] "All values:      0.883522033691406"
+    ## [1] "All values:      0.843676090240479"
 
-    ## [1] "Every 10 values: 0.382364988327026"
+    ## [1] "Every 10 values: 0.372447967529297"
 
     ## [1] "*********************************************"
 
@@ -544,48 +550,48 @@ The overall times (seconds):
 <tbody>
 <tr class="odd">
 <td align="left">GillespieSSA</td>
-<td align="right">0.9545</td>
-<td align="right">1.0030</td>
-<td align="right">1.0190</td>
-<td align="right">1.0260</td>
-<td align="right">1.0450</td>
-<td align="right">1.1220</td>
+<td align="right">0.9532</td>
+<td align="right">0.9894</td>
+<td align="right">1.0040</td>
+<td align="right">1.0090</td>
+<td align="right">1.0270</td>
+<td align="right">1.0790</td>
 </tr>
 <tr class="even">
 <td align="left">All times</td>
-<td align="right">0.7072</td>
-<td align="right">0.7760</td>
-<td align="right">0.8056</td>
-<td align="right">0.8139</td>
-<td align="right">0.8500</td>
-<td align="right">0.9341</td>
+<td align="right">0.7357</td>
+<td align="right">0.7781</td>
+<td align="right">0.8007</td>
+<td align="right">0.8047</td>
+<td align="right">0.8254</td>
+<td align="right">1.0560</td>
 </tr>
 <tr class="odd">
 <td align="left">All times file.only</td>
-<td align="right">0.4942</td>
-<td align="right">0.5219</td>
-<td align="right">0.5472</td>
-<td align="right">0.5450</td>
-<td align="right">0.5632</td>
-<td align="right">0.6336</td>
+<td align="right">0.5058</td>
+<td align="right">0.5280</td>
+<td align="right">0.5347</td>
+<td align="right">0.5373</td>
+<td align="right">0.5405</td>
+<td align="right">0.6135</td>
 </tr>
 <tr class="even">
 <td align="left">kthsave 10</td>
-<td align="right">0.3389</td>
-<td align="right">0.3677</td>
-<td align="right">0.3818</td>
-<td align="right">0.3841</td>
-<td align="right">0.3973</td>
-<td align="right">0.4541</td>
+<td align="right">0.3357</td>
+<td align="right">0.3546</td>
+<td align="right">0.3668</td>
+<td align="right">0.3701</td>
+<td align="right">0.3810</td>
+<td align="right">0.4668</td>
 </tr>
 <tr class="odd">
 <td align="left">kthsave 10 and file.only</td>
-<td align="right">0.3053</td>
-<td align="right">0.3247</td>
-<td align="right">0.3345</td>
-<td align="right">0.3365</td>
-<td align="right">0.3469</td>
-<td align="right">0.4039</td>
+<td align="right">0.2926</td>
+<td align="right">0.3127</td>
+<td align="right">0.3243</td>
+<td align="right">0.3280</td>
+<td align="right">0.3384</td>
+<td align="right">0.4751</td>
 </tr>
 </tbody>
 </table>
