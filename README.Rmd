@@ -30,6 +30,12 @@ install.packages("devtools")
 devtools::install_github("INSP-RH/ssar")
 ```
 
+To adecquately run ``ssar``you need to install a `C++`compiler: 
+
++ On Windows, install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
++ On Mac, install Xcode from the App store.
++ On Linux, ``sudo apt-get install r-base-dev`` or similar.
+
 ## Examples 
 
 After installing you need to call the _ssar_ package for using it. 
@@ -582,6 +588,8 @@ If the number indicating after how many iterations to save, `kthsave` is smaller
 ### `tmin >= tmax`
 
 The time at which the simulation starts `tmin` is bigger or equal than the time at which the simulation ends `tmax`
+
+
 
 ## What is missing?
 
