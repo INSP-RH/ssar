@@ -26,7 +26,7 @@ install.packages("devtools")
 devtools::install_github("INSP-RH/ssar")
 ```
 
-To adecquately run `ssar`you need to install a `C++`compiler:
+To adecquately run `ssar`you need to install a `C++` compiler:
 
 -   On Windows, install [Rtools](https://cran.r-project.org/bin/windows/Rtools/).
 -   On Mac, install Xcode from the App store.
