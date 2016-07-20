@@ -205,8 +205,6 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
   
   //Loop to assign initial valies to Xvals and nsimRange
   //----------------------------------------------------------------
-  
-  
   for (int j = 0; j < nsim; j++){
     
     //Value to Nsimrange
@@ -300,7 +298,8 @@ void ssa_loop (NumericVector X, Function pfun, NumericMatrix v, NumericVector pa
     Xvals += col;
     
     //To make sure we don't print all results (files might get too memory-intensive) 
-    if ( ((indicator(1)-1) % kthsave) == 0){
+    //We also want to make sure we print the last run
+    if ( ((indicator(1)-1) % kthsave) == 0 || *std::min_element(t.begin(), t.end()) >= tmax || indicator(1) == maxiter ){
 
       Printable(_,1) = indicator; //Iteration number
       Printable(_,2) = t;         //Time
