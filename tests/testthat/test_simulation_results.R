@@ -61,7 +61,7 @@ test_that("Simulation results",{
     params     <- c(b=0.1)
     X          <- matrix(c(N=1.2), nrow = 1)
     pfun       <- function(t,X,params){ cbind(params[1] * X[,1]) }
-    v          <- matrix( c(+1),ncol=2)
+    v          <- matrix( c(+1), ncol = 1)
     tmin       <- 0
     tmax       <- 10
     nsim       <- 100
@@ -101,7 +101,7 @@ test_that("Simulation results",{
     params     <- c(b=10)
     X          <- matrix(c(N=10), nrow = 1)
     pfun       <- function(t,X,params){ cbind(params[1] * X[,1]) }
-    v          <- matrix( c(-1),ncol=2)
+    v          <- matrix( c(-1), ncol = 1)
     tmin       <- 0
     tmax       <- 100
     nsim       <- 100
@@ -146,7 +146,7 @@ test_that("Simulation results",{
     params     <- c(mu= 0.001, sd = 0.2)
     X          <- matrix(c(N=10), nrow = 1)
     pfun       <- function(t,X,params){ cbind( rlnorm(nrow(X),params[1],params[2])* X[,1]) }
-    v          <- matrix( c(+1),ncol=2)
+    v          <- matrix( c(+1), ncol=1)
     tmin       <- 0
     tmax       <- 1
     nsim       <- 1000

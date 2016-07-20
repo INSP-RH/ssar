@@ -151,5 +151,53 @@ test_that("Errors for inadecquate inputs",{
     
   },"xinit needs to be a matrix")
   
+  #Check that xinit has only one row
+  expect_error({
+    
+    params     <- c(b=2, d=1, k=1000)
+    X          <- matrix(c(N=500, 2), nrow = 2)
+    pfun       <- function(t,X,params){ cbind(params[1] *(1 + sin(t))* X[1],
+                                              (params[2] + (params[1]-params[2])*X[1]/params[3])*X[1]) }
+    v          <- matrix( c(+1, -1),ncol=2)
+    tmin       <- 0
+    tmax       <- 1
+    nsim       <- 10
+    maxiter    <- 2
+    simulation <- ssa(X, pfun, v, params, tmin, tmax, nsim, maxiter = maxiter, plot.sim = F)
+    
+  },paste("Matrix xinit should have exactly one", 
+          "row and as many columns as variables"))
+  
+  #Check that v has correct number of columns
+  expect_error({
+    
+    params     <- c(b=2, d=1, k=1000)
+    X          <- matrix(c(N=500), nrow = 1)
+    pfun       <- function(t,X,params){ cbind(params[1] *(1 + sin(t))* X[1],
+                                              (params[2] + (params[1]-params[2])*X[1]/params[3])*X[1]) }
+    v          <- matrix( c(+1), nrow=1)
+    tmin       <- 0
+    tmax       <- 1
+    nsim       <- 10
+    maxiter    <- 2
+    simulation <- ssa(X, pfun, v, params, tmin, tmax, nsim, maxiter = maxiter, plot.sim = F)
+    
+  },paste("Matrix v should have", ncol(pfun(X,tmin,params)) ,"columns"))
+  
+  #Check that v has correct number of rows
+  expect_error({
+    
+    params     <- c(b=2, d=1, k=1000)
+    X          <- matrix(c(N=500), nrow = 1)
+    pfun       <- function(t,X,params){ cbind(params[1] *(1 + sin(t))* X[1],
+                                              (params[2] + (params[1]-params[2])*X[1]/params[3])*X[1]) }
+    v          <- matrix( c(+1,2,3,4), ncol=2)
+    tmin       <- 0
+    tmax       <- 1
+    nsim       <- 10
+    maxiter    <- 2
+    simulation <- ssa(X, pfun, v, params, tmin, tmax, nsim, maxiter = maxiter, plot.sim = F)
+    
+  },paste("Matrix v should have", ncol(X) ,"rows"))
   
 })
