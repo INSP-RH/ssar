@@ -104,8 +104,20 @@ test_that("Simulation results using deSolve",{
       })
     }
     
-    #Solve with ode
-    vals <- as.data.frame(ode(c(N = X[,1]), times, meanfun, params))
+    #Solve with ode (this throws "unlock_solver" not resolved from current namespace (deSolve) when using devtools)
+    #http://stackoverflow.com/questions/18193556/what-is-the-cause-of-error-in-cunlock-solver-error-in-desolve-package
+    tryCatch({
+      vals <- as.data.frame(ode(c(N = X[,1]), times, meanfun, params))
+    },
+    error = function(e){
+      
+      #Read from already processed data
+      load("Test_deSolve1.Rda")
+      
+      vals <<- vals
+      return("Loading file...")
+      
+    })
     
     #Estimate mean and sd
     summarymat <- getMean(simulation, times)[[1]]
@@ -123,7 +135,8 @@ test_that("Simulation results using deSolve",{
     #lines(times,simmean, col ="black", lwd = 2)
     #lines(times, qvars[1,], col = "blue", lwd = 2)
     #lines(times, qvars[2,], col = "blue", lwd = 2)
-
+    
+    
     #Check the confidence interval matches conf times
     rejected <- length(which(vals$N > qvars[2,] || vals$N < qvars[1,]))
 
@@ -179,8 +192,20 @@ test_that("Simulation results using deSolve",{
       })
     }
     
-    #Solve with ode
-    vals <- as.data.frame(ode(c(X1 = X[,1], X2 = X[,2]), times, meanfun, params))
+    #Solve with ode (this throws "unlock_solver" not resolved from current namespace (deSolve) when using devtools)
+    #http://stackoverflow.com/questions/18193556/what-is-the-cause-of-error-in-cunlock-solver-error-in-desolve-package
+    tryCatch({
+      vals <- as.data.frame(ode(c(X1 = X[,1], X2 = X[,2]), times, meanfun, params))
+    },
+    error = function(e){
+      
+      #Read from already processed data
+      load("Test_deSolve2.Rda")
+      
+      vals <<- vals
+      return("Loading file...")
+      
+    })
     
     #Estimate mean and sd
     summarymat <- getMean(simulation, times)
