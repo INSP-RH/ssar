@@ -51,7 +51,7 @@
 #' X          <- matrix(c(N=500), nrow = 1)
 #' pfun       <- function(t,X,params){ cbind(params[1] * X[,1], 
 #'                        (params[2] + (params[1]-params[2])*X[,1]/params[3])*X[,1]) }
-#' v          <- matrix( c(+1, -1),ncol=2)
+#' v          <- matrix( c(+1, -1), ncol=2)
 #' tmin       <- 0
 #' tmax       <- 1
 #' nsim       <- 5
@@ -83,7 +83,7 @@
 #' #Get initial parameters
 #' params     <- c(a = 3, b = 0.01, c = 2)
 #'
-#' #Notice that X must be inputed as matrix
+#' #Notice that X must be inputed as vector
 #' X          <- matrix(c(100, 100), ncol = 2)
 #'
 #' #Notice that pfun returns a matrix
@@ -201,9 +201,6 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
   #PREPARATION: HERE WE CHECK PARAMETERS MAKE SENSE
   #----------------------------------------
 
-  #Print to user
-  #cat("Starting the process...\n")
-
   #Check that nsim is integer and positive
   if ( (nsim != ceiling(nsim) & nsim != floor(nsim)) || nsim <= 1){
     warning(paste("nsim is not a strictly positive integer.",
@@ -218,7 +215,7 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
                     "Defaulting to closest positive integer"))
     kthsave   <- max( ceiling(kthsave), 1)
   }
-
+  
   #Check that tmin < tmax and maxiter, maxtime are > 0
   if (tmin >= tmax){
     stop("tmin >= tmax")
@@ -230,6 +227,13 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
     stop("Maximum time       < 0")
   }
 
+  #Check that maxiter is integer and positive
+  if ( (maxiter != ceiling(maxiter) & maxiter != floor(maxiter)) ){
+    maxiter   <- ceiling(maxiter)
+    warning(paste("maxiter is not an integer.",
+                  "Defaulting to maxiter =", maxiter))
+  }
+  
   #Value indicating whether to check maxiter or maxtime
   .opts_check  <- FALSE
 
@@ -245,11 +249,21 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
   #Check that xinit is matrix
   if (!identical(xinit, as.matrix(xinit))){
     stop("xinit needs to be a matrix")
+  } else if (nrow(xinit) != 1){
+    stop(paste("Matrix xinit should have exactly one", 
+               "row and as many columns as variables"))
   }
   
   #Length of pfun vector (as it is in string form)
   .lfun <- length(.evalpfun)
 
+  #Check that v has adecquate number of rows and columns
+  if (ncol(v) != .lfun){
+    stop(paste("Matrix v should have", .lfun, "columns"))
+  } else if (nrow(v) != ncol(xinit)){
+    stop(paste("Matrix v should have", ncol(xinit), "rows"))
+  }
+    
   #Check whether additional options were specified
   if (maxiter < Inf || maxtime < Inf || print.time){
     .opts_check <- TRUE
@@ -278,8 +292,6 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
   #-----------------------------------------
 
   #Run C program to estimate the loop
-  #cat("Running simulation...\n")
-  
   ssa_loop(xinit, .pfun, v, params, tmin, nsim, .lfun,
             tmax, maxiter, maxtime,  print.time, .opts_check, kthsave)
 
@@ -288,17 +300,15 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
   #-----------------------------------------
 
   #Read temporary file and delete
-  #cat("Getting information...\n")
-
   if (!file.only){  
   
-  #Try to open file which is in current directory
-  .filename  <- "Temporary_File_ssa.txt"
-  .datamodel <- as.data.frame(read.table(.filename, header = T))
-  
-  #Change colnames (this is to ensure no errors while running check)
-  colnames(.datamodel)[1] <- "Simulation"
-  colnames(.datamodel)[3] <- "Time"
+    #Try to open file which is in current directory
+    .filename  <- "Temporary_File_ssa.txt"
+    .datamodel <- as.data.frame(read.table(.filename, header = T))
+    
+    #Change colnames (this is to ensure no errors while running check)
+    colnames(.datamodel)[1] <- "Simulation"
+    colnames(.datamodel)[3] <- "Time"
   
   }
   
@@ -369,7 +379,4 @@ ssa <- function(xinit, pfun, v, params = c(), tmin = 0, tmax = Inf, nsim = 10,
   } else {
     return(.datamodel)
   }
-    
-  
-
 }
